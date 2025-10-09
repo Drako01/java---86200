@@ -8,6 +8,7 @@ public class Mascota {
 	
 	String messageError = "La Mascota no vive mas de " + EDAD_MAXIMA + " años de edad";
 		
+	String message = "La mascota emitio un sonido";
 	private String nombre;
 	private String color;
 	private String tamanio;
@@ -118,6 +119,10 @@ public class Mascota {
 	}
 
 
+	public void hacerSolido() {
+		System.out.println(message);
+	}
+	
 	@Override
 	public String toString() {
 		return "Mascota [nombre=" + nombre + ", color=" + color + ", tamanio=" + tamanio + ", edad="

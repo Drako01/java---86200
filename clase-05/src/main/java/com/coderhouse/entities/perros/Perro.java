@@ -31,6 +31,11 @@ public class Perro extends Mascota {
 	}
 	
 	
+	@Override
+	public void hacerSolido() {
+		System.out.println("El Perro esta Ladrando");
+	}
+	
 	// Decorador -> Reescribe el metodo -> Polimorfismo
 	@Override
 	public String toString() {

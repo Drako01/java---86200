@@ -4,6 +4,11 @@ import com.coderhouse.entities.Mascota;
 
 public class Gato extends Mascota {
 	
+
+	@Override
+	public void hacerSolido() {
+		System.out.println("El Gato " + getNombre() + " esta Maullando");
+	}
 	
 	@Override
 	public String toString() {
