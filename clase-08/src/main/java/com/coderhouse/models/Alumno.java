@@ -6,9 +6,11 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity; // Hibernate -> ORM de Java
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 
@@ -35,6 +37,7 @@ public class Alumno {
 	@Column(name = "Edad")
 	private int edad;
 	
+	@ManyToMany(mappedBy = "alumnos", fetch = FetchType.EAGER)
 	private List<Curso> cursos = new ArrayList<>();	
 	
 	
@@ -45,18 +48,16 @@ public class Alumno {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Alumno(Long id, String nombre, String apellido, int dni, String legajo, int edad, List<Curso> cursos,
-			LocalDateTime createdAt) {
+	
+	public Alumno(String nombre, String apellido, int dni, String legajo, int edad) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 		this.legajo = legajo;
 		this.edad = edad;
-		this.cursos = cursos;
-		this.createdAt = createdAt;
 	}
+
 	public Long getId() {
 		return id;
 	}
