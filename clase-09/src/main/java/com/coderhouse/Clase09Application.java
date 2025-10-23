@@ -101,6 +101,7 @@ public class Clase09Application implements CommandLineRunner{
 			List<Long> java = new ArrayList<>();
 			if(curso1 != null) java.add(curso1.getId());
 			
+			
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno1.getId(), desarrolloWeb);
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno2.getId(), desarrolloWeb);
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno3.getId(), desarrolloWeb);
