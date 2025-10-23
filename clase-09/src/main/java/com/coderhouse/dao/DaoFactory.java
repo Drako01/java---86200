@@ -100,12 +100,12 @@ public class DaoFactory { // DAO -> Data Access Object
 			// Asociar al Alumno con el Curso
 			if(!curso.getAlumnos().contains(alumno)) {
 				curso.getAlumnos().add(alumno);
-			}
+			} 
 			
 			// Opcional: Asociar el Curso al Alumno
 			if(!alumno.getCursos().contains(curso)) {
 				alumno.getCursos().add(curso);
-			}
+			} 
 			
 			em.merge(curso);
 		}

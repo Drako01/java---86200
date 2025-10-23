@@ -95,8 +95,8 @@ public class Clase09Application implements CommandLineRunner{
 			List<Long> desarrolloWeb = new ArrayList<>();
 			if(curso9 != null) desarrolloWeb.add(curso9.getId());
 			if(curso2 != null) desarrolloWeb.add(curso2.getId());
-			if(curso6 != null) javaCarrerasIntensiva.add(curso6.getId());
-			if(curso3 != null) javaCarrerasIntensiva.add(curso3.getId());
+			if(curso6 != null) desarrolloWeb.add(curso6.getId());
+			if(curso3 != null) desarrolloWeb.add(curso3.getId());
 			
 			List<Long> java = new ArrayList<>();
 			if(curso1 != null) java.add(curso1.getId());
@@ -109,7 +109,7 @@ public class Clase09Application implements CommandLineRunner{
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno2.getId(), javaCarrerasIntensiva);
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno3.getId(), javaCarrerasIntensiva);
 			dao.inscribirAUnAlumnoAUnoOVariosCursos(alumno1.getId(), java);
-			
+				
 					
 		} catch(Exception err) {
 			err.getMessage();
