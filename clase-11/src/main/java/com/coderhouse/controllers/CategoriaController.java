@@ -75,7 +75,7 @@ public class CategoriaController {
 		try {
 			svc.deleteById(categoriaId);
 			return ResponseEntity.noContent().build(); // 204
-		}catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			return ResponseEntity.notFound().build(); // 404			
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().build(); // Error 500
