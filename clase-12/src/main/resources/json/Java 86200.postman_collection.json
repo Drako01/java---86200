@@ -40,52 +40,12 @@
 			"response": []
 		},
 		{
-			"name": "Get All Cursos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/cursos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"cursos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Categorias",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/categorias",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"categorias"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get Alumno by id",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/alumnos/6",
+					"raw": "http://localhost:8080/api/alumnos/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -94,49 +54,7 @@
 					"path": [
 						"api",
 						"alumnos",
-						"6"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Curso by ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/cursos/13",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"cursos",
-						"13"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Categoria by ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/categorias/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"categorias",
-						"1"
+						"4"
 					]
 				}
 			},
@@ -149,7 +67,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"nombre\": \"Alumno Creado\",\r\n\t\"apellido\": \"Postman\",\r\n\t\"dni\": 99555222,\r\n\t\"legajo\": \"L99555222\",\r\n\t\"edad\": 28\r\n}",
+					"raw": "{\r\n\t\"nombre\": \"Alumno Creado\",\r\n\t\"apellido\": \"Postman\",\r\n\t\"dni\": 98555222,\r\n\t\"legajo\": \"L98555222\",\r\n\t\"edad\": 28\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -167,147 +85,6 @@
 						"api",
 						"alumnos",
 						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Crear Curso",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"nombre\": \"Curso Creado 2 (Postman)\",\r\n\t\"categoria\": {\r\n\t\t\"id\": 4,\r\n\t\t\"nombre\": \"Habilidades Blandas\"\r\n\t}\t\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/cursos/create",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"cursos",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Crear Categoria",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"nombre\": \"Categoria Creada (Postman)\"\t\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/categorias/create",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"categorias",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Eliminar Alumno",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/alumnos/6",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"alumnos",
-						"6"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Eliminar Curso",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/cursos/14",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"cursos",
-						"14"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Eliminar Categoria",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"nombre\": \"Categoria Creada (Postman)\"\t\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/categorias/7",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"categorias",
-						"7"
 					]
 				}
 			},
@@ -344,6 +121,128 @@
 			"response": []
 		},
 		{
+			"name": "Eliminar Alumno",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Cursos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/cursos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cursos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Curso by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/cursos/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cursos",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Curso",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nombre\": \"Curso Creado 2 (Postman)\",\r\n\t\"categoria\": {\r\n\t\t\"id\": 4,\r\n\t\t\"nombre\": \"Habilidades Blandas\"\r\n\t}\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cursos/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cursos",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Curso",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/cursos/14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cursos",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Actualizar Curso",
 			"request": {
 				"method": "PUT",
@@ -374,6 +273,107 @@
 			"response": []
 		},
 		{
+			"name": "Get All Categorias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/categorias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Categoria by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/categorias/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categorias",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Categoria",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nombre\": \"Categoria Creada (Postman)\"\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/categorias/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categorias",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Categoria",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nombre\": \"Categoria Creada (Postman)\"\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/categorias/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categorias",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Actualizar Categoria",
 			"request": {
 				"method": "PUT",
@@ -398,6 +398,77 @@
 						"api",
 						"categorias",
 						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Asignar Categoria a Curso Copy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"cursoId\": 11,\r\n\t\"categoriaId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cursos/asignar-categoria",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cursos",
+						"asignar-categoria"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inscripcion de Alumnos a Cursos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"alumnoId\": 4,\r\n\t\"cursoIds\": [4,8]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/alumnos/inscribir",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"alumnos",
+						"inscribir"
 					]
 				}
 			},
