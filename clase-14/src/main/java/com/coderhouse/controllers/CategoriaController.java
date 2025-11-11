@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/categorias")
-@Tag(name = "Gesti\u00f3n de Categor\u00edas", description = "Endpoints para gestionar Categor\u00edas")
+@Tag(name = "Gestion de Categoris", description = "Endpoints para gestionar Categorias")
 public class CategoriaController {
 
 	@Autowired
@@ -87,13 +87,13 @@ public class CategoriaController {
 		})
 	@PostMapping("/create")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			description = "Datos de la categor\u00eda a crear",
+			description = "Datos de la categoria a crear",
 			required = true,
 			content = @Content(
 					mediaType = "application/json",
 					examples = @ExampleObject(
-							name = "Categor\u00eda Backend",
-							value = "{\"nombre\":\"Programaci\u00f3n Backend\"}"
+							name = "Categoria Backend",
+							value = "{\"nombre\":\"Programacion Backend\"}"
 					),
 					schema = @Schema(implementation = Categoria.class)
 			)
@@ -122,19 +122,19 @@ public class CategoriaController {
 		})
 	@PutMapping("/{categoriaId}")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			description = "Datos de la categor\u00eda a actualizar",
+			description = "Datos de la categoia a actualizar",
 			required = true,
 			content = @Content(
 					mediaType = "application/json",
 					examples = @ExampleObject(
-							name = "Actualizaci\u00f3n de categor\u00eda",
-							value = "{\"nombre\":\"Programaci\u00f3n Fullstack\"}"
+							name = "Actualizacion de categoria",
+							value = "{\"nombre\":\"Programacion Fullstack\"}"
 					),
 					schema = @Schema(implementation = Categoria.class)
 			)
 	)
 	public ResponseEntity<Categoria> updateCategoriaById(
-			@Parameter(description = "Identificador de la categor\u00eda", example = "10", required = true)
+			@Parameter(description = "Identificador de la categoria", example = "10", required = true)
 			@PathVariable Long categoriaId,
 			@RequestBody Categoria categoriaActualizada){
 		try {
@@ -158,7 +158,7 @@ public class CategoriaController {
 		})
 	@DeleteMapping("/{categoriaId}")
 	public ResponseEntity<Void> deleteCategoriaById(
-			@Parameter(description = "Identificador de la categor\u00eda", example = "10", required = true)
+			@Parameter(description = "Identificador de la categoria", example = "10", required = true)
 			@PathVariable Long categoriaId){
 		try {
 			svc.deleteById(categoriaId);

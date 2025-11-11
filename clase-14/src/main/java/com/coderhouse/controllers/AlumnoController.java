@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/alumnos")
-@Tag(name = "Gesti\u00f3n de Alumnos", description = "Endpoints para gestionar Alumnos")
+@Tag(name = "Gestion de Alumnos", description = "Endpoints para gestionar Alumnos")
 public class AlumnoController {
 
 	@Autowired
@@ -94,7 +94,7 @@ public class AlumnoController {
 					mediaType = "application/json",
 					examples = @ExampleObject(
 							name = "Alumno inicial",
-							value = "{\"nombre\":\"Laura\",\"apellido\":\"Garc\u00eda\",\"dni\":33444555,\"legajo\":\"L33444555\"}"
+							value = "{\"nombre\":\"Laura\",\"apellido\":\"Garcia\",\"dni\":33444555,\"legajo\":\"L33444555\"}"
 					),
 					schema = @Schema(implementation = Alumno.class)
 			)
@@ -128,7 +128,7 @@ public class AlumnoController {
 					mediaType = "application/json",
 					examples = @ExampleObject(
 							name = "Actualizaci\u00f3n de alumno",
-							value = "{\"nombre\":\"Ana\",\"apellido\":\"P\u00e9rez\",\"dni\":11222333}"
+							value = "{\"nombre\":\"Ana\",\"apellido\":\"Perez\",\"dni\":11222333}"
 					),
 					schema = @Schema(implementation = Alumno.class)
 			)

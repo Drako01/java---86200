@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/cursos")
-@Tag(name = "Gesti\u00f3n de Cursos", description = "Endpoints para gestionar Cursos")
+@Tag(name = "Gestion de Cursos", description = "Endpoints para gestionar Cursos")
 public class CursoController {
 
 	@Autowired
@@ -127,7 +127,7 @@ public class CursoController {
 			content = @Content(
 					mediaType = "application/json",
 					examples = @ExampleObject(
-							name = "Actualizaci\u00f3n de Curso",
+							name = "Actualizacion de Curso",
 							value = "{\"nombre\":\"Java Avanzado\"}"
 					),
 					schema = @Schema(implementation = Curso.class)
@@ -187,7 +187,7 @@ public class CursoController {
 		})
 	@PostMapping("/asignar-categoria")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			description = "Identificadores necesarios para relacionar un curso con una categor\u00eda",
+			description = "Identificadores necesarios para relacionar un curso con una categoria",
 			required = true,
 			content = @Content(
 					mediaType = "application/json",
@@ -197,7 +197,7 @@ public class CursoController {
 	)
 	public ResponseEntity<?> asignarCategoriaACurso(@RequestBody AsignacionDeCategoriaACursoDTO dto){
 		if(dto.getCursoId() == null || dto.getCategoriaId() == null) {
-			ErrorResponse error = new ErrorResponse("Solicitud inv\u00e1lida", "El par\u00e1metro ID no puede ser null");
+			ErrorResponse error = new ErrorResponse("Solicitud invalida", "El parametro ID no puede ser null");
 			return ResponseEntity.badRequest().body(error);
 		}		
 		try {
