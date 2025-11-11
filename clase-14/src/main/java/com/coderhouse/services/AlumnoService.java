@@ -1,0 +1,112 @@
+package com.coderhouse.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.coderhouse.dto.InscripcionAlumnoDTO;
+import com.coderhouse.interfaces.CRUDInterface;
+import com.coderhouse.models.Alumno;
+import com.coderhouse.models.Curso;
+import com.coderhouse.repositories.AlumnoRepository;
+import com.coderhouse.repositories.CursoRepository;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class AlumnoService implements CRUDInterface<Alumno, Long> {
+	
+	private final String message = "Alumno no encontrado";
+	
+	@Autowired
+	private AlumnoRepository repo;
+	@Autowired
+	private CursoRepository cursoRepo;
+	
+	@Override
+	public List<Alumno> findAll() {
+		return repo.findAll();
+	}
+
+	@Override
+	public Alumno findById(Long id) {
+		return repo.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException(message));
+	}
+
+	@Override
+	@Transactional
+	public Alumno save(Alumno nuevoAlumno) {
+		if(nuevoAlumno.getDni() != 0 && repo.existsByDni(nuevoAlumno.getDni())) {
+			throw new IllegalStateException("Este DNI ya existe");
+		}
+		
+		if(nuevoAlumno.getLegajo() != null && !nuevoAlumno.getLegajo().isEmpty()
+				&& repo.existsByLegajo(nuevoAlumno.getLegajo())) {
+			throw new IllegalStateException("Este Legajo ya existe");
+		}
+		return repo.save(nuevoAlumno);
+	}
+
+	@Override
+	@Transactional
+	public Alumno update(Long id, Alumno alumnoActualizado) {
+		Alumno alumno = findById(id);
+		
+		if(alumnoActualizado.getNombre() != null && !alumnoActualizado.getNombre().isEmpty()) {
+			alumno.setNombre(alumnoActualizado.getNombre());
+		}
+		
+		if(alumnoActualizado.getApellido() != null && !alumnoActualizado.getApellido().isEmpty()) {
+			alumno.setApellido(alumnoActualizado.getApellido());
+		}
+		
+		if(alumnoActualizado.getDni() != 0) {
+			alumno.setDni(alumnoActualizado.getDni());
+		}
+		
+		if(alumnoActualizado.getEdad() != 0) {
+			alumno.setEdad(alumnoActualizado.getEdad());
+		}
+		
+		if(alumnoActualizado.getLegajo() != null && !alumnoActualizado.getLegajo().isEmpty()) {
+			alumno.setLegajo(alumnoActualizado.getLegajo());
+		}
+				
+		return repo.save(alumno);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		if(!repo.existsById(id)) {
+			throw new IllegalArgumentException(message);
+		}
+		repo.deleteById(id);
+	}
+
+	
+	@Transactional
+	public Alumno inscribirAlumnoACursos(InscripcionAlumnoDTO dto) {
+		Alumno alumno = findById(dto.getAlumnoId());
+		
+		for(Long cursoId : dto.getCursoIds()) {
+			
+			Curso curso = cursoRepo.findById(cursoId)
+					.orElseThrow(() -> new IllegalArgumentException("El Curso con ID " + cursoId + ", no existe"));
+			
+			// Verificar si el Alumno esta inscripto a este Curso
+			if(alumno.getCursos().contains(curso)) {
+				throw new IllegalStateException("El Alumno ya esta inscripto a este Curso co ID: " + cursoId);
+			}
+			
+			alumno.getCursos().add(curso);
+			curso.getAlumnos().add(alumno);
+			
+			cursoRepo.save(curso);
+		}
+			
+		
+		return repo.save(alumno);
+	}
+}
