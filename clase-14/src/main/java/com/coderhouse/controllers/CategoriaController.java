@@ -19,7 +19,10 @@ import com.coderhouse.responses.ErrorResponse;
 import com.coderhouse.services.CategoriaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/categorias")
-@Tag(name = "Gestión de Categorias", description = "Endpoints para gestionar Categorias")
+@Tag(name = "Gesti\u00f3n de Categor\u00edas", description = "Endpoints para gestionar Categor\u00edas")
 public class CategoriaController {
 
 	@Autowired
@@ -36,7 +39,7 @@ public class CategoriaController {
 	@Operation(summary = "Obtener la lista de Todas las Categorias")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Lista de Categorias obtenida correctamente", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = Categoria.class))}),
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Categoria.class)))}),
 			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
@@ -60,7 +63,9 @@ public class CategoriaController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@GetMapping("/{categoriaId}")
-	public ResponseEntity<Categoria> getCategoriaById(@PathVariable Long categoriaId){
+	public ResponseEntity<Categoria> getCategoriaById(
+			@Parameter(description = "Identificador de la categor\u00eda", example = "10", required = true)
+			@PathVariable Long categoriaId){
 		try {
 			Categoria categoria = svc.findById(categoriaId);
 			return ResponseEntity.ok(categoria); // 200
@@ -81,6 +86,18 @@ public class CategoriaController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PostMapping("/create")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos de la categor\u00eda a crear",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Categor\u00eda Backend",
+							value = "{\"nombre\":\"Programaci\u00f3n Backend\"}"
+					),
+					schema = @Schema(implementation = Categoria.class)
+			)
+	)
 	public ResponseEntity<?> createCategoria(@RequestBody Categoria categoria) {
 		try {
 			Categoria categoriaCreada = svc.save(categoria);
@@ -104,8 +121,22 @@ public class CategoriaController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PutMapping("/{categoriaId}")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos de la categor\u00eda a actualizar",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Actualizaci\u00f3n de categor\u00eda",
+							value = "{\"nombre\":\"Programaci\u00f3n Fullstack\"}"
+					),
+					schema = @Schema(implementation = Categoria.class)
+			)
+	)
 	public ResponseEntity<Categoria> updateCategoriaById(
-			@PathVariable Long categoriaId, @RequestBody Categoria categoriaActualizada){
+			@Parameter(description = "Identificador de la categor\u00eda", example = "10", required = true)
+			@PathVariable Long categoriaId,
+			@RequestBody Categoria categoriaActualizada){
 		try {
 			Categoria categoria = svc.update(categoriaId, categoriaActualizada);
 			return ResponseEntity.ok(categoria); // 200
@@ -126,7 +157,9 @@ public class CategoriaController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@DeleteMapping("/{categoriaId}")
-	public ResponseEntity<Void> deleteCategoriaById(@PathVariable Long categoriaId){
+	public ResponseEntity<Void> deleteCategoriaById(
+			@Parameter(description = "Identificador de la categor\u00eda", example = "10", required = true)
+			@PathVariable Long categoriaId){
 		try {
 			svc.deleteById(categoriaId);
 			return ResponseEntity.noContent().build(); // 204

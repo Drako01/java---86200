@@ -20,7 +20,10 @@ import com.coderhouse.responses.ErrorResponse;
 import com.coderhouse.services.AlumnoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/alumnos")
-@Tag(name = "Gestión de Alumnos", description = "Endpoints para gestionar Alumnos")
+@Tag(name = "Gesti\u00f3n de Alumnos", description = "Endpoints para gestionar Alumnos")
 public class AlumnoController {
 
 	@Autowired
@@ -37,7 +40,7 @@ public class AlumnoController {
 	@Operation(summary = "Obtener la lista de Todos los Alumnos")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Lista de Alumnos obtenida correctamente", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Alumno.class)))}),
 			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
@@ -61,7 +64,9 @@ public class AlumnoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@GetMapping("/{alumnoId}")
-	public ResponseEntity<Alumno> getAlumnoById(@PathVariable Long alumnoId) {
+	public ResponseEntity<Alumno> getAlumnoById(
+			@Parameter(description = "Identificador del alumno", example = "5", required = true)
+			@PathVariable Long alumnoId) {
 		try {
 			Alumno alumno = alumnoService.findById(alumnoId);
 			return ResponseEntity.ok(alumno); // 200
@@ -82,6 +87,18 @@ public class AlumnoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PostMapping("/create")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos del alumno a crear",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Alumno inicial",
+							value = "{\"nombre\":\"Laura\",\"apellido\":\"Garc\u00eda\",\"dni\":33444555,\"legajo\":\"L33444555\"}"
+					),
+					schema = @Schema(implementation = Alumno.class)
+			)
+	)
 	public ResponseEntity<?> createAlumno(@RequestBody Alumno alumno) {
 		try {
 			Alumno alumnoCreado = alumnoService.save(alumno);
@@ -104,7 +121,22 @@ public class AlumnoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PutMapping("/{alumnoId}")
-	public ResponseEntity<Alumno> updateAlumnoById(@PathVariable Long alumnoId, @RequestBody Alumno alumnoActualizado) {
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos del alumno a actualizar",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Actualizaci\u00f3n de alumno",
+							value = "{\"nombre\":\"Ana\",\"apellido\":\"P\u00e9rez\",\"dni\":11222333}"
+					),
+					schema = @Schema(implementation = Alumno.class)
+			)
+	)
+	public ResponseEntity<Alumno> updateAlumnoById(
+			@Parameter(description = "Identificador del alumno", example = "5", required = true)
+			@PathVariable Long alumnoId,
+			@RequestBody Alumno alumnoActualizado) {
 		try {
 			Alumno alumno = alumnoService.update(alumnoId, alumnoActualizado);
 			return ResponseEntity.ok(alumno); // 200
@@ -125,7 +157,9 @@ public class AlumnoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@DeleteMapping("/{alumnoId}")
-	public ResponseEntity<Void> deleteAlumnoById(@PathVariable Long alumnoId) {
+	public ResponseEntity<Void> deleteAlumnoById(
+			@Parameter(description = "Identificador del alumno", example = "5", required = true)
+			@PathVariable Long alumnoId) {
 		try {
 			alumnoService.deleteById(alumnoId);
 			return ResponseEntity.noContent().build(); // 204
@@ -149,6 +183,18 @@ public class AlumnoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PostMapping("/inscribir")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Identificador del alumno y cursos a inscribir",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Inscripci\u00f3n m\u00faltiple",
+							value = "{\"alumnoId\":5,\"cursoIds\":[1,2]}"
+					),
+					schema = @Schema(implementation = InscripcionAlumnoDTO.class)
+			)
+	)
 	public ResponseEntity<?> inscribirAlumnoACursos(@RequestBody InscripcionAlumnoDTO dto) {
 		try {
 			Alumno alumno = alumnoService.inscribirAlumnoACursos(dto);

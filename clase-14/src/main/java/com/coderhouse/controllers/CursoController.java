@@ -20,7 +20,10 @@ import com.coderhouse.responses.ErrorResponse;
 import com.coderhouse.services.CursoService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/cursos")
-@Tag(name = "Gestión de Cursos", description = "Endpoints para gestionar Cursos")
+@Tag(name = "Gesti\u00f3n de Cursos", description = "Endpoints para gestionar Cursos")
 public class CursoController {
 
 	@Autowired
@@ -37,7 +40,7 @@ public class CursoController {
 	@Operation(summary = "Obtener la lista de Todos los Cursos")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Lista de Cursos obtenida correctamente", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Curso.class)))}),
 			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
@@ -61,7 +64,9 @@ public class CursoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@GetMapping("/{cursoId}")
-	public ResponseEntity<Curso> getCursoById(@PathVariable Long cursoId) {
+	public ResponseEntity<Curso> getCursoById(
+			@Parameter(description = "Identificador del curso", example = "1", required = true)
+			@PathVariable Long cursoId) {
 		try {		
 			Curso curso = svc.findById(cursoId);
 			return ResponseEntity.ok(curso); // 200
@@ -82,6 +87,18 @@ public class CursoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PostMapping("/create")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos del curso a crear",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Curso Backend",
+							value = "{\"nombre\":\"Java Backend\"}"
+					),
+					schema = @Schema(implementation = Curso.class)
+			)
+	)
 	public ResponseEntity<?> createCurso(@RequestBody Curso curso) {
 		try {
 			Curso cursoCreado = svc.save(curso);
@@ -104,8 +121,22 @@ public class CursoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PutMapping("/{cursoId}")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Datos del curso a actualizar",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(
+							name = "Actualizaci\u00f3n de Curso",
+							value = "{\"nombre\":\"Java Avanzado\"}"
+					),
+					schema = @Schema(implementation = Curso.class)
+			)
+	)
 	public ResponseEntity<Curso> updateCursoById(
-			@PathVariable Long cursoId,@RequestBody Curso cursoActualizado){
+			@Parameter(description = "Identificador del curso", example = "1", required = true)
+			@PathVariable Long cursoId,
+			@RequestBody Curso cursoActualizado){
 		try {
 			Curso curso = svc.update(cursoId, cursoActualizado);
 			return ResponseEntity.ok(curso); // 200
@@ -126,7 +157,9 @@ public class CursoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@DeleteMapping("/{cursoId}")
-	public ResponseEntity<Void> deleteCursoById(@PathVariable Long cursoId){
+	public ResponseEntity<Void> deleteCursoById(
+			@Parameter(description = "Identificador del curso", example = "1", required = true)
+			@PathVariable Long cursoId){
 		try {
 			svc.deleteById(cursoId);
 			return ResponseEntity.noContent().build(); // 204
@@ -142,6 +175,8 @@ public class CursoController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Curso asociado correctamente a la Categoria", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "400", description = "Par\u00e1metros incompletos", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Error al obtener el Curso o Categoria", content = @Content(
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Error al intentar asociar al Curso, hay un conflicto con los datos", 
@@ -151,9 +186,19 @@ public class CursoController {
 					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 		})
 	@PostMapping("/asignar-categoria")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			description = "Identificadores necesarios para relacionar un curso con una categor\u00eda",
+			required = true,
+			content = @Content(
+					mediaType = "application/json",
+					examples = @ExampleObject(value = "{\"cursoId\":1,\"categoriaId\":2}"),
+					schema = @Schema(implementation = AsignacionDeCategoriaACursoDTO.class)
+			)
+	)
 	public ResponseEntity<?> asignarCategoriaACurso(@RequestBody AsignacionDeCategoriaACursoDTO dto){
 		if(dto.getCursoId() == null || dto.getCategoriaId() == null) {
-			return ResponseEntity.badRequest().body("El parametro ID no puede ser Null");
+			ErrorResponse error = new ErrorResponse("Solicitud inv\u00e1lida", "El par\u00e1metro ID no puede ser null");
+			return ResponseEntity.badRequest().body(error);
 		}		
 		try {
 			Curso cursoActualizado = svc.asignarCategoriaAUnCurso(
