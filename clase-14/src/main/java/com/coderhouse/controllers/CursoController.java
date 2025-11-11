@@ -19,13 +19,28 @@ import com.coderhouse.models.Curso;
 import com.coderhouse.responses.ErrorResponse;
 import com.coderhouse.services.CursoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/cursos")
+@Tag(name = "Gestión de Cursos", description = "Endpoints para gestionar Cursos")
 public class CursoController {
 
 	@Autowired
 	private CursoService svc;
 	
+	@Operation(summary = "Obtener la lista de Todos los Cursos")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista de Cursos obtenida correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@GetMapping
 	public ResponseEntity<List<Curso>> getAllCursos(){
 		try {
@@ -36,6 +51,15 @@ public class CursoController {
 		}
 	}
 	
+	@Operation(summary = "Obtener un Curso por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Curso encontrado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al Obtener el Curso", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@GetMapping("/{cursoId}")
 	public ResponseEntity<Curso> getCursoById(@PathVariable Long cursoId) {
 		try {		
@@ -48,6 +72,15 @@ public class CursoController {
 		}
 	}
 	
+	@Operation(summary = "Crear un Curso")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Curso creado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "409", description = "Error al intentar crear el Curso - CONFLICT", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PostMapping("/create")
 	public ResponseEntity<?> createCurso(@RequestBody Curso curso) {
 		try {
@@ -61,6 +94,15 @@ public class CursoController {
 		}
 	}
 	
+	@Operation(summary = "Actualizar un Curso por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Curso actualizado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Curso", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PutMapping("/{cursoId}")
 	public ResponseEntity<Curso> updateCursoById(
 			@PathVariable Long cursoId,@RequestBody Curso cursoActualizado){
@@ -74,6 +116,15 @@ public class CursoController {
 		}
 	}
 	
+	@Operation(summary = "Eliminar un Curso por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Curso eliminado correctamente", content = {
+					@Content()}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Curso", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@DeleteMapping("/{cursoId}")
 	public ResponseEntity<Void> deleteCursoById(@PathVariable Long cursoId){
 		try {
@@ -87,6 +138,18 @@ public class CursoController {
 	}
 	
 	
+	@Operation(summary = "Asignar una Categoria a un Curso")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Curso asociado correctamente a la Categoria", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Curso.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Curso o Categoria", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "409", description = "Error al intentar asociar al Curso, hay un conflicto con los datos", 
+				content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PostMapping("/asignar-categoria")
 	public ResponseEntity<?> asignarCategoriaACurso(@RequestBody AsignacionDeCategoriaACursoDTO dto){
 		if(dto.getCursoId() == null || dto.getCategoriaId() == null) {

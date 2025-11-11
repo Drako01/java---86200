@@ -19,13 +19,28 @@ import com.coderhouse.models.Alumno;
 import com.coderhouse.responses.ErrorResponse;
 import com.coderhouse.services.AlumnoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/alumnos")
+@Tag(name = "Gestión de Alumnos", description = "Endpoints para gestionar Alumnos")
 public class AlumnoController {
 
 	@Autowired
 	private AlumnoService alumnoService;
 
+	@Operation(summary = "Obtener la lista de Todos los Alumnos")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista de Alumnos obtenida correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@GetMapping
 	public ResponseEntity<List<Alumno>> getAllAlumnos() {
 		try {
@@ -36,6 +51,15 @@ public class AlumnoController {
 		}
 	}
 
+	@Operation(summary = "Obtener un Alumno por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Alumno encontrado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al Obtener el Alumno", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@GetMapping("/{alumnoId}")
 	public ResponseEntity<Alumno> getAlumnoById(@PathVariable Long alumnoId) {
 		try {
@@ -48,6 +72,15 @@ public class AlumnoController {
 		}
 	}
 
+	@Operation(summary = "Crear un Alumno")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Alumno creado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+			@ApiResponse(responseCode = "409", description = "Error al intentar crear el Alumno - CONFLICT", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PostMapping("/create")
 	public ResponseEntity<?> createAlumno(@RequestBody Alumno alumno) {
 		try {
@@ -61,6 +94,15 @@ public class AlumnoController {
 		}
 	}
 
+	@Operation(summary = "Actualizar un Alumno por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Alumno actualizado correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Alumno", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PutMapping("/{alumnoId}")
 	public ResponseEntity<Alumno> updateAlumnoById(@PathVariable Long alumnoId, @RequestBody Alumno alumnoActualizado) {
 		try {
@@ -73,6 +115,15 @@ public class AlumnoController {
 		}
 	}
 
+	@Operation(summary = "Eliminar un Alumno por su ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Alumno eliminado correctamente", content = {
+					@Content()}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Alumno", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@DeleteMapping("/{alumnoId}")
 	public ResponseEntity<Void> deleteAlumnoById(@PathVariable Long alumnoId) {
 		try {
@@ -85,6 +136,18 @@ public class AlumnoController {
 		}
 	}
 
+	@Operation(summary = "Inscribir un Alumno a uno o varios Cursos")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Alumno inscripto correctamente", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Alumno.class))}),
+			@ApiResponse(responseCode = "404", description = "Error al obtener el Alumno", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "409", description = "Error al intentar inscribir al Alumno, hay un conflicto con los datos", 
+				content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Error Interno de Servidor", content = @Content(
+					mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+		})
 	@PostMapping("/inscribir")
 	public ResponseEntity<?> inscribirAlumnoACursos(@RequestBody InscripcionAlumnoDTO dto) {
 		try {
