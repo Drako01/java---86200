@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: clase-15-api
+    plan: free
+    region: oregon
+    env: docker
+    dockerfilePath: ./Dockerfile
+    numInstances: 1
+    autoDeploy: true
+    deployToRegions:
+      - oregon
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
